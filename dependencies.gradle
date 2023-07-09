@@ -1,0 +1,131 @@
+ext {
+
+    android = [
+            applicationId    : "com.example.epoxydemo",
+            minSdkVersion    : 24,
+            targetSdkVersion : 33,
+            compileSdkVersion: 33,
+    ]
+
+    depVersions = [
+            "lifecycle"       : "2.2.0",
+            "kotlin"          : "1.5.20",
+            "androidx_core"   : "1.7.0",
+            "appcompat"       : "1.6.1",
+            "material"        : "1.9.0",
+            "constraintlayout": "2.1.2",
+            "junit"           : "4.+",
+            "androidx_test"   : "1.1.3",
+            "esspreso"        : "3.4.0",
+            "nav_version"     : "2.5.3",
+    ]
+
+
+    //Common Dependency
+    commonDependency = new DependencyList()
+            .add("org.jetbrains.kotlin:kotlin-stdlib:${depVersions.kotlin}")
+            .add("junit:junit:4.12")
+
+    //Presentation Dependency
+    presentationDep = new DependencyList(commonDependency)
+            .add("androidx.lifecycle:lifecycle-viewmodel-ktx:${depVersions.lifecycle}")
+            .add("androidx.lifecycle:lifecycle-runtime-ktx:${depVersions.lifecycle}")
+    //  .add("androidx.lifecycle:lifecycle-extensions:${depVersions.lifecycle}")
+            .add("androidx.navigation:navigation-fragment-ktx:${depVersions.nav_version}")
+            .add("androidx.navigation:navigation-ui-ktx:${depVersions.nav_version}")
+            .add("androidx.appcompat:appcompat:${depVersions.appcompat}")
+            .add("androidx.test.espresso:espresso-core:3.4.0")
+            .add("androidx.constraintlayout:constraintlayout:${depVersions.constraintlayout}")
+            .add("com.google.android.material:material:${depVersions.material}")
+            .add("androidx.core:core-ktx:1.9.0")
+           // .add("androidx.annotation:annotation:1.5.0")
+           // .add("androidx.recyclerview:recyclerview:1.2.1")
+            .add("com.airbnb.android:epoxy:5.1.3")
+            .add("com.airbnb.android:epoxy-processor:5.1.3", DependencyType.KAPT)
+            .add('com.airbnb.android:epoxy-databinding:2.6.0', DependencyType.API)
+            .add("com.airbnb.android:epoxy-glide-preloading:5.1.3")
+            .add("com.github.bumptech.glide:glide:4.11.0")
+}
+
+enum DependencyType {
+    API("api"),
+    IMPLEMENTATION("implementation"),
+    TEST("testImplementation"),
+    ANDROID_TEST("androidTestImplementation"),
+    ANNOTATION("annotationProcessor"),
+    KAPT("kapt")
+
+    DependencyType(String title) {
+        this.title = title
+    }
+    String title
+
+    @Override
+    public String toString() {
+        return title
+    }
+}
+
+class DependencyItem {
+    String url
+    DependencyType type
+    String requiredVersion = null
+
+    DependencyItem(String url, DependencyType type) {
+        this.url = url
+        this.type = type
+    }
+
+    DependencyItem(String url) {
+        this.url = url
+        this.type = DependencyType.IMPLEMENTATION
+    }
+
+    DependencyItem(String url, String requiredVersion) {
+        this(url, DependencyType.IMPLEMENTATION)
+        this.requiredVersion = requiredVersion
+    }
+
+    @Override
+    public String toString() {
+        return "|-- >> $type : $url"
+    }
+}
+
+class DependencyList {
+    private List<DependencyItem> items = new ArrayList<>();
+
+    DependencyList(DependencyList dependencyList) {
+        if (items != null)
+            this.items = new ArrayList<>(dependencyList.items)
+    }
+
+    DependencyList() {
+    }
+
+
+    DependencyList add(String url) {
+        items.add(new DependencyItem(url))
+        return this
+    }
+
+    DependencyList add(String url, DependencyType type) {
+        items.add(new DependencyItem(url, type))
+        return this
+    }
+
+    DependencyList add(String url, String requiredVersion) {
+        items.add(new DependencyItem(url, requiredVersion))
+        return this
+    }
+
+    List<DependencyItem> get() {
+        return items.sort { item ->
+            switch (item.type) {
+                case DependencyType.IMPLEMENTATION: return -1
+                case DependencyType.ANNOTATION: return 0
+                default: 1
+            }
+        }.toList()
+    }
+}

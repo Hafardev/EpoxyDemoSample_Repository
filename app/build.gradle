@@ -1,0 +1,79 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-android'
+}
+def config = getRootProject().extensions.getByName("ext")
+
+android {
+    namespace 'com.example.epoxydemo'
+    compileSdk config.android.compileSdkVersion
+
+    defaultConfig {
+        applicationId config.android.applicationId
+        minSdk config.android.minSdkVersion
+        targetSdk config.android.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+dependencies {
+   // kapt("groupId:artifactId:version")
+    //implementation 'androidx.core:core-ktx:1.9.0'
+   // implementation 'androidx.appcompat:appcompat:1.6.1'
+    //implementation 'com.google.android.material:material:1.9.0'
+    //implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+   // implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"
+    // LiveData
+   // implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
+
+    //implementation "androidx.annotation:annotation:1.5.0"
+    //implementation "androidx.recyclerview:recyclerview:1.3.0"
+  //  implementation "com.airbnb.android:epoxy:5.1.3"
+//    kapt "com.airbnb.android:epoxy-processor:5.0.0"
+
+    //testImplementation 'junit:junit:4.13.2'
+    //androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    //androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    println("\r\n------ $project.name module dependecies ------")
+    config.presentationDep.get().each {
+        obj ->
+            println("$obj")
+            if (obj.requiredVersion != null) {
+                add("${obj.type}", obj.url) {
+                    version {
+                        strictly "$requiredVersion"
+                    }
+                }
+            } else {
+                add("${obj.type}", obj.url)
+            }
+    }
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="data"
+            type="com.example.epoxydemo.dataClass.SectionTitleDataModel" />
+    </data>
+<androidx.appcompat.widget.AppCompatTextView android:id="@+id/tvTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="20sp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
+    android:text="@{data.title}"
+    tools:text="Section title"
+    android:textColor="@color/black"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" />
+</layout>
