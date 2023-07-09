@@ -17,11 +17,11 @@ class EpoxyDemoViewModel : ViewModel(), EpoxyDemoController.EpoxyControllerListe
         }
 
         override fun onItemClick(itemId: String) {
-            Log.i("Epoxy", "onItemClick, item Name: $itemId")
+            Log.i("Epoxy", "onItemClick:$itemId")
         }
 
         private fun setupUIItems() {
-            uiControllerLiveData.postValue(repository.provideUIData())
+            uiControllerLiveData.postValue(repository.provideDataSource())
         }
 
 

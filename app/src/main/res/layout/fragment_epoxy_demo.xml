@@ -14,8 +14,6 @@
         android:overScrollMode="never"
         android:paddingBottom="24dp"/>
 
-<!--    <include layout="@layout/layout_toolbar"
-        android:id="@+id/toolbar" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

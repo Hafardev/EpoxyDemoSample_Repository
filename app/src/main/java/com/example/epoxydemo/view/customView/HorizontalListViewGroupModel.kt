@@ -24,11 +24,6 @@ abstract class HorizontalViewGroupModel : DataBindingEpoxyModel() {
     override fun getDefaultLayout() = R.layout.item_cell_recycler
 
     override fun setDataBindingVariables(binding: ViewDataBinding?) {
-     /*   val layoutInflater = LayoutInflater.from(binding?.root?.context)
-        val binding = DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, R.layout.row_horizontal_list, mLinearLayout, false)
-        val itemView = binding.root
-        val textView = itemView.findViewById<TextView>(R.id.tvTitle)
-        textView.text = label*/
         (binding?.root as? ItemCellRecyclerBinding)?.apply {
             addTextViewToLayout(this.container)
 
@@ -37,27 +32,16 @@ abstract class HorizontalViewGroupModel : DataBindingEpoxyModel() {
 
     private fun addTextViewToLayout(mLinearLayout: LinearLayout){
         mLinearLayout.removeAllViews()
-        val inflater = LayoutInflater.from(mLinearLayout.context)
         items.forEachIndexed { index, label ->
-           // val layoutInflater = LayoutInflater.from(mLinearLayout.context)
-           // val binding = DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, R.layout.row_horizontal_list, mLinearLayout, false)
-            //val itemView = binding.root
-            //val textView = itemView.findViewById<TextView>(R.id.tvTitle)
-          // textView.text = label
-            //val itemView =  DataBindingUtil.inflate(inflater, R.layout.row_horizontal_list, mLinearLayout, false) as TextView
-           val itemView =  LayoutInflater.from(mLinearLayout.context).inflate(R.layout.row_horizontal_list, mLinearLayout, false) as LinearLayout
-           /// val itemView =  LayoutInflater.from(mLinearLayout.context).inflate(R.layout.row_horizontal_list, mLinearLayout, false) as TextView
-            //val itemView = inflater.inflate(R.layout.row_horizontal_list,mViewGroup,false) as TextView
-            //itemView.id = index
+            val itemView =  LayoutInflater.from(mLinearLayout.context).inflate(R.layout.row_horizontal_list, mLinearLayout, false) as LinearLayout
             val textView =  itemView.findViewById<TextView>(R.id.tvTitle)
-            //val textview = itemView.findViewById<TextView>(R.id.tvTitle)
             textView.text = label
             mLinearLayout.addView(itemView)
         }
     }
 }
 
-fun TypedEpoxyController<*>.addItemGroup(item: HorizontalListDataModel) {
+fun TypedEpoxyController<*>.addItemViewGroup(item: HorizontalListDataModel) {
     recycler {
         id("recycler")
         data(item)
