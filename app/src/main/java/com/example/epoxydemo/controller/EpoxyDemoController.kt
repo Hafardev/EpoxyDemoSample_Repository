@@ -4,7 +4,6 @@ import com.airbnb.epoxy.TypedEpoxyController
 import com.example.epoxydemo.*
 import com.example.epoxydemo.dataClass.*
 import com.example.epoxydemo.view.customView.HorizontalViewGroupModel
-import com.example.epoxydemo.view.customView.addItemGroup
 
 class EpoxyDemoController(private val listener: EpoxyControllerListener) :
     TypedEpoxyController<List<BaseModel>>() {
@@ -16,7 +15,6 @@ class EpoxyDemoController(private val listener: EpoxyControllerListener) :
                 is TitleDataModel -> addTitle(dataModel)
                 is SubtitleDataModel -> addSubtitle(dataModel)
                 is SectionTitleDataModel -> addSectionTitle(dataModel)
-                is HorizontalItemGroupDataModel -> addItemGroup(dataModel)
                 is InfoDataModel -> addInfo(dataModel)
                 is DescriptionDataModel -> addDescription(dataModel)
                 is ItemDataModel -> addItem(dataModel, listener)
